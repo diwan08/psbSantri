@@ -8,6 +8,8 @@ exports.up = function(knex) {
         t.integer("nomer_pendaftaran").notNullable().unsigned()
         t.string('id_santri').notNullable();
         t.foreign('id_santri').references('id').inTable('santri').onDelete('CASCADE')
+        t.string("biaya_pendaftaran", 10).notNullable();
+        t.enum('status',["belum",'lunas','pending','ditolak']).notNullable().defaultTo('belum')
         t.timestamps(true,true)
         })
     };

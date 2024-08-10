@@ -15,7 +15,8 @@ module.exports= class programController{
                 await db('daftar')
                     .insert({
                         id_santri: value.id_santri,
-                        nomer_pendaftaran    
+                        nomer_pendaftaran,
+                        biaya_pendaftaran: value.biaya_pendaftaran 
                     })
                     .transacting(trx);  
                     

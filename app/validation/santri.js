@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 module.exports= Joi.object({
-    nik : Joi.number().required(),
+    nik : Joi.string().required(),
     name: Joi.string().required().trim(),
     tempat_lahir: Joi.string().required().trim(),
     tanggal_lahir: Joi.date().required(),

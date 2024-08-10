@@ -7,6 +7,8 @@ exports.up = function(knex) {
       t.string('id').primary();
       t.string('email').unique().notNullable();
       t.string('password').notNullable();
+      t.string('nama').notNullable();
+      t.enum('role', ['admin'],['santri'])
       t.integer('otp',6);
       t.timestamps(true, true); 
     })
