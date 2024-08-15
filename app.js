@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express       = require('express');
 const path          = require("path")
+const Minio         = require("minio")
 const cors          = require('cors');
 const compression   = require('compression')
 const boom          = require('express-boom')
@@ -22,6 +23,8 @@ app.use(cors({
   extended: true,
   parameterLimit:50000
 }));
+
+
 app.use(compression({ level: 1 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

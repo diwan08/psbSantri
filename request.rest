@@ -1,0 +1,11 @@
+
+GET http://localhost:3005/v1
+
+###
+POST http://localhost:3005/v1/loginAdmin
+Content-Type: application/json
+
+{
+    "email": "diwanart898@gmail.com",
+    "password": "diwan0810", 
+}

@@ -4,7 +4,9 @@ const controller = require('../controllers/auth');
 const upload = require("multer")();
 
 
-
+routes.get('/admin/dashboard', authorize, (req, res) => {
+    res.json({ message: "Selamat datang di Dashboard Admin", user: req.user });
+  });
 // post
 // routes.post("/:otp/change-password", controller.changePassword);
 routes.post('/register', controller.createData);
@@ -13,7 +15,6 @@ routes.post('/register', controller.createData);
 routes.post('/loginSantri', controller.login)
 routes.post('/loginAdmin', controller.loginAdmin)
 
-// routes.post('/regiterSantri',upload.none(), controller.registerUser)
-routes.post('/loginSantri', upload.none(), controller.loginSantri)
+
 
 module.exports= routes; 

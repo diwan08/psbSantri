@@ -83,42 +83,50 @@ module.exports = class AuthController {
             return res.boom.badRequest(error.message)
         }
     }
-    static async loginAdmin (req, res) {
+    static async loginAdmin(req, res) {
       try {
-          // check erroe and retrieved request
-          const{error, value} = login.validate(req.body)
-          if (error) {
-              return res.boom.badData(error.message)
-          }
-          // check user
-          const user = await db("users").where({ email: value.email}).first();
-          // return console.log(user);
-          
-          if (!user) {
-              return res.boom.unauthorized("wrong email, please check again");
-          }else if (user.role === "santri") {
-            return res.boom.unauthorized('kamu tidak mempunyai akses')
-          }
-          // check password
-          if (!bcrypt.compareSync(value.password, user.password)) {
-              return res.boom.unauthorized("wrong password, please check again")
-          }
-          const token =  jwt.sign({
+        // Validate the request body
+        const { error, value } = login.validate(req.body);
+        if (error) {
+          return res.boom.badData(error.message);
+        }
+    
+        // Check if user exists
+        const user = await db("users").where({ email: value.email }).first();
+        if (!user) {
+          return res.boom.unauthorized("Wrong email, please check again");
+        } else if (user.role === "santri") {
+          return res.boom.unauthorized("Kamu tidak mempunyai akses");
+        }
+    
+        // Check password
+        if (!bcrypt.compareSync(value.password, user.password)) {
+          return res.boom.unauthorized("Wrong password, please check again");
+        }
+    
+        // Generate JWT token
+        const token = jwt.sign(
+          {
             id: user.id,
             nama: user.nama,
             email: user.email,
-            },process.env.JWT_SECRET_KEY,{expiresIn: process.env.JWT_EXPIRED_TIME})
+          },
+          process.env.JWT_SECRET_KEY,
+          { expiresIn: process.env.JWT_EXPIRED_TIME }
+        );
 
-          return res.json({
-              success: true,
-              message: "user successfully logged in",
-              token
-              
-          })
+        
+        // Return the response
+        return res.json({
+          success: true,
+          message: "User successfully logged in",
+          token,
+        });
       } catch (error) {
-          return res.boom.badRequest(error.message)
+        return res.boom.badRequest(error.message);
       }
-  }
+    }
+    
     static async forgotPassword(req, res){
         try {
             const otp = require("crypto").randomInt(999999);

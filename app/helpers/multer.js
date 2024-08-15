@@ -8,22 +8,12 @@ module.exports= destination => {
             if (!fs.existsSync(path.join(__dirname, "../../public/avatar"))) {
                 fs.mkdirSync(path.join(__dirname, "../../public/avatar"));
             }
-            if (!fs.existsSync(path.join(__dirname, "../../public/store"))) {
-                fs.mkdirSync(path.join(__dirname, "../../public/store"));
-            }
-            if (!fs.existsSync(path.join(__dirname, "../../public/product"))) {
-                fs.mkdirSync(path.join(__dirname, "../../public/product"));
-            }
 
-            if (destination == "user") {
+            if (destination == "santri") {
                 cb(null, path.join(__dirname, "../../public/avatar"))
-            } else if (destination == "store"){
-                cb(null, path.join(__dirname, "../../public/store"))    
-            }  else if (destination == "product"){
-                cb(null, path.join(__dirname, "../../public/product"))
-            }
+            } 
         },
-        filename: (req, file, cb)=>{
+        filename: (req, file, cb)=>{ 
             cb(null, Date.now().toString().concat(".", file.mimetype.split("/")[1]))
         }
     })

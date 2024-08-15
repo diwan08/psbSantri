@@ -1,7 +1,7 @@
-const e = require("express")
+require("dotenv").config()
 const db = require("../../database")
 const program = require("../validation/program")
-const santri = require("../validation/santri")
+
 
 module.exports= class programController{
     static async create(req,res) {
@@ -53,13 +53,10 @@ module.exports= class programController{
       static async getAll(req, res, next) {
         try {
           //get data qury params for paginations, query params ?
-          const { page = 1, limit = 25, search = "", order = "asc" } = req.query;
     
-          const data = await db("daftar")
-            .limit(+limit)
-            .offset(+limit * +page - +limit)
-            .orderBy("created_at", order)
-            .where("nomer_pendaftaran", "like", `%${search}%`);
+          const data = await db("daftar as d")
+            .leftJoin("santri as s", "s.id","d.id_santri")
+            .select("d.id","d.nomer_pendaftaran","s.id AS id_santri","s.name","s.tempat_lahir", "s.tanggal_lahir","s.jenis_kelamin","s.asal_sekolah","s.jenis_pendaftaran","s.mendaftar_ke_lembaga", "s.nama_wali")
           return res.json({
             success: true,
             message: "data gotten",
